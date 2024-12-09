@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "EndMyWallet",
+    "slug": "endmywallet",
+    "entryPoint": "./App.js",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "newArchEnabled": true,
+    "icon": "./assets/images/icon.png",
+    "scheme": "mywallet",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+"plugins": [
+  "expo-sqlite",
+  "expo-router",
+  [
+    "expo-splash-screen",
+    {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    }
+  ]
+],
+"experiments": {
+  "typedRoutes": true
+},
+"assetBundlePatterns": [
+  "**/*"
+]
+  }
+}
