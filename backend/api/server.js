@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 const dbPath = process.env.DATABASE_PATH || path.resolve(__dirname, '../database/EndMyWallet.db');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
-    console.error('Veritabanına bağlanırken hata oluştu:', err.message);
+    console.error(`Veritabanına bağlanırken hata oluştu: ${err.message}`);
   } else {
     console.log(`SQLite veritabanına başarıyla bağlandı: ${dbPath}`);
   }
@@ -32,9 +32,15 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 // Ortak bir hata yönetim fonksiyonu
 const handleDatabaseError = (res, err) => {
-  console.error('Veritabanı hatası:', err.message);
-  res.status(500).json({ error: 'Veritabanı hatası: ' + err.message });
+  console.error(`Veritabanı hatası: ${err.message}`);
+  res.status(500).json({ error: 'Veritabanı hatası', details: err.message });
 };
+
+// Test Route
+app.get('/api/test', (req, res) => {
+  console.log('Test endpoint hit');
+  res.status(200).send('Test route is working!');
+});
 
 // Rotaları Yükleme
 app.use('/api/users', userRoutes(db, handleDatabaseError));
@@ -46,5 +52,16 @@ app.use('/api/savings', savingsRoutes(db, handleDatabaseError));
 app.use('/api/accounts', accountRoutes(db, handleDatabaseError));
 app.use('/api/transactions', transactionRoutes(db, handleDatabaseError));
 
+// Genel hata yönetimi middleware’i
+app.use((err, req, res, next) => {
+  console.error(`Genel bir hata yakalandı: ${err.message}`);
+  res.status(500).json({ error: 'Genel sunucu hatası', details: err.message });
+});
+
+// Bilinmeyen rotalar için middleware
+app.use((req, res) => {
+  res.status(404).json({ error: 'Bilinmeyen bir rota talep ettiniz', route: req.originalUrl });
+});
+
 // Sunucu Başlatma
-module.exports = app; 
+module.exports = app;
