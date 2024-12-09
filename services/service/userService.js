@@ -1,8 +1,16 @@
 import axios from 'axios';
-import { API_BASE_URL } from '@env';
 
+// API Base URL tanımlaması
+// Vercel'de process.env kullanılır, yerel geliştirme ortamında @env modülü
+let API_BASE_URL;
+if (process.env.NODE_ENV === 'production') {
+  API_BASE_URL = process.env.API_BASE_URL; // Vercel ortam değişkeni
+} else {
+  const { API_BASE_URL: LocalBaseURL } = require('@env');
+  API_BASE_URL = LocalBaseURL;
+}
 
-console.log('USERS API Base URLSS:', API_BASE_URL);
+console.log('BUDGET API Base URLSSS:', API_BASE_URL);
 
 const userService = {
   // Kullanıcı Kayıt Olma
