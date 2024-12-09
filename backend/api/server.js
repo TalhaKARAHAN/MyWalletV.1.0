@@ -21,7 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Veritabanı Bağlantısı
-const dbPath = path.resolve(__dirname, '../database/EndMyWallet.db');
+const dbPath = process.env.DATABASE_PATH || path.resolve(__dirname, '../database/EndMyWallet.db');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Veritabanına bağlanırken hata oluştu:', err.message);
@@ -47,4 +47,4 @@ app.use('/api/accounts', accountRoutes(db, handleDatabaseError));
 app.use('/api/transactions', transactionRoutes(db, handleDatabaseError));
 
 // Sunucu Başlatma
-module.exports = app; // Vercel için app'i export ediyoruz
+module.exports = app; 
