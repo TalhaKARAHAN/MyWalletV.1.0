@@ -63,5 +63,11 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Bilinmeyen bir rota talep ettiniz', route: req.originalUrl });
 });
 
+
+router.post('/user/login', (req, res) => {
+  console.log("Login request received");
+  // Daha fazla log ekleyin
+});
+
 // Sunucu Başlatma
 module.exports = app;
